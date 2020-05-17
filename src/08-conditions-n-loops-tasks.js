@@ -190,8 +190,13 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  for (let i = 0; i < str.length; i += 1) {
+    if (str.indexOf(str[i]) === str.lastIndexOf(str[i])) {
+      return str[i];
+    }
+  }
+  return null;
 }
 
 
@@ -217,8 +222,16 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let beginNumber = a;
+  let endNumber = b;
+  if (a > b) {
+    beginNumber = b;
+    endNumber = a;
+  }
+  const beginSign = isStartIncluded ? '[' : '(';
+  const endSing = isEndIncluded ? ']' : ')';
+  return `${beginSign}${beginNumber}, ${endNumber}${endSing}`;
 }
 
 
@@ -345,8 +358,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -362,8 +375,28 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const pathesArray = [];
+  for (let i = 0; i < pathes.length; i += 1) {
+    pathesArray.push(pathes[i].split(''));
+  }
+  const resultArray = [];
+  let flag = true;
+  for (let b = 0; b < pathesArray[0].length; b += 1) {
+    for (let i = 0; i < pathesArray.length; i += 1) {
+      if (flag) {
+        resultArray.push(pathesArray[i][b]);
+      }
+      flag = false;
+      if (resultArray[b] !== pathesArray[i][b]) {
+        resultArray.pop();
+        break;
+      }
+    }
+    flag = true;
+  }
+  const resultPath = resultArray.join('');
+  return resultArray.join('').substring(0, resultPath.lastIndexOf('/') + 1);
 }
 
 
@@ -420,8 +453,29 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  for (let i = 0; i < position.length; i += 1) {
+    if (position[i][0] === undefined && position[i][0] === undefined
+    && position[i][2] === undefined) {
+      i += 1;
+    }
+    if (position[i][0] === position[i][1] && position[i][0] === position[i][2]) {
+      return position[i][0];
+    }
+  }
+
+  for (let i = 0; i < position.length; i += 1) {
+    if (position[0][i] === position[1][i] && position[0][i] === position[2][i]) {
+      return position[0][i];
+    }
+  }
+  if (position[0][0] === position[1][1] && position[0][0] === position[2][2]) {
+    return position[0][0];
+  }
+  if (position[0][2] === position[1][1] && position[0][2] === position[2][0]) {
+    return position[0][2];
+  }
+  return undefined;
 }
 
 
